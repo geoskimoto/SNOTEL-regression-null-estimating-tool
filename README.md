@@ -1,5 +1,5 @@
 # SNOTEL-regression-null-estimating-tool
-## Tool to evaluate regression models and estimate missing data at non-reporting SNOTEL stations using nearby stations.
+## Tool to evaluate regression models and estimate missing data at non-reporting Snow Pack Telemetry (SNOTEL) stations using nearby stations.
 
 Connected to the US Department of Agriculture's Air - Water Database (AWDB), so estimates can be done with most up-to-date data.
 

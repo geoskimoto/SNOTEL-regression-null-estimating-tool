@@ -6,5 +6,5 @@ Connected to the US Department of Agriculture's Air - Water Database (AWDB), so 
 Training and checking model fit with RMSE.  Function allows for the evaluation of mutiple models choosing different SNOTEL stations as predictors.
 ![check_model](/check_model.png)
 
-After a good model is found using appropriate nearby stations as predictors, predications can be made on null data.
+After a good model is found using appropriate nearby stations as predictors, predictions can be made on null data.
 ![make_predictions](/make_predictions.png)

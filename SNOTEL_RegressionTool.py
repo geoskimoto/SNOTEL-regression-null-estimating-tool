@@ -98,6 +98,37 @@ def getData(stationparameter, begindate, enddate):
 
     except KeyError:
         print('KeyError occurred.')  
+
+
+#Function that assigns the regression model to be used and its parameters
+
+def regressionModel(regression_model):
+    if regression_model == 'Lasso':
+        regr = LassoCV(alphas=(0.001,0.01,0.1,1,10,100,1000))
+        return regr
+    elif regression_model == 'Ridge':
+        regr = RidgeCV(alphas=(0.001,0.01,0.1,1,10,100,1000))
+        return regr
+    elif regression_model == 'Linear':
+        regr = LinearRegression()
+        return regr
+    elif regression_model == 'SVM': 
+        regr = svm.SVR(kernel='rbf', degree=3, gamma='scale', coef0=0.0, tol=0.001, C=1.0, epsilon=0.1, shrinking=True, cache_size=200, verbose=False, max_iter=-1)
+        return regr
+    elif regression_model == 'Huber':
+        regr = HuberRegressor()
+        return regr
+    elif regression_model == 'GradientBoost':
+        regr = GradientBoostingRegressor(random_state=0, n_estimators=100)
+        return regr
+    elif regression_model == 'AdaBoost':
+        regr = AdaBoostRegressor(random_state=0, n_estimators=100)
+        return regr
+    elif regression_model == 'Random Forest':
+        regr = RandomForestRegressor(n_estimators=100)
+        return regr
+    else:
+        print('Choose either Lasso, Ridge, SVM, Huber, GradientBoost, AdaBoost, or Random Forest')        
         
         
 class RegressionFun():
@@ -198,7 +229,7 @@ class RegressionFun():
             height=450,
             width=1200 
         )
-        fig.show()
+#         fig.show()
         self.traintest_fig = fig
 
         # # # # # Regression Plot # # # # #
@@ -227,7 +258,7 @@ class RegressionFun():
             height=450,
             width=1200 
         )
-        fig2.show()
+#         fig2.show()
         self.modelfit_fig = fig2
 
         return regr
@@ -245,23 +276,23 @@ class RegressionFun():
         predictions = self.regr.predict(predict_features)
 
         #Plot predictions 
-        fig = go.Figure()
+        fig3 = go.Figure()
 
-        fig.add_trace(go.Scatter(
+        fig3.add_trace(go.Scatter(
             y = predict_target,
             x = predict_target.index,
             mode = 'lines',
             name = f'{self.stations[0]} {self.parameters[0]}'
         )) 
 
-        fig.add_trace(go.Scatter(
+        fig3.add_trace(go.Scatter(
             y = predictions,
             x = predict_features.index,
             mode = 'lines',
             name = 'Model Predictions'
         )) 
 
-        fig.update_layout(
+        fig3.update_layout(
           showlegend=True,
           height=650,
           width=1400,
@@ -274,9 +305,9 @@ class RegressionFun():
           xaxis_title = "Date",
           yaxis_title = f"{self.stationparameterpairs[0]}"
         )
-
-        fig.show()    
-
+        
+#         fig3.show()    
+        self.predictions_fig = fig3
 
 # In[25]:
 

@@ -226,8 +226,15 @@ class RegressionFun():
 
         fig.update_layout(
             showlegend=True,
-            height=450,
-            width=1200 
+            height=500,
+            width=950,
+            title={
+              'text': "Model Predictions on Training and Test Data",
+              'xanchor': 'center',
+              'yanchor': 'top',
+              'y':0.9,
+              'x':0.4
+            },
         )
 #         fig.show()
         self.traintest_fig = fig
@@ -255,13 +262,18 @@ class RegressionFun():
         fig2.update_yaxes(title_text = f'{self.stationparameterpairs[1:]}')
         fig2.update_layout(
             showlegend=True,
-            height=450,
-            width=1200 
+            height=500,
+            width=950,
+            title={
+              'text': "Regression Model",
+              'xanchor': 'center',
+              'yanchor': 'top',
+              'y':0.9,
+              'x':0.4
+            },
         )
 #         fig2.show()
         self.modelfit_fig = fig2
-
-        return regr
 
 
     def make_predictions(self, predict_begindate, predict_enddate):
@@ -294,14 +306,15 @@ class RegressionFun():
 
         fig3.update_layout(
           showlegend=True,
-          height=650,
-          width=1400,
+          height=500,
+          width=950,
           title={
               'text': "Model Predictions",
               'xanchor': 'center',
               'yanchor': 'top',
               'y':0.9,
-              'x':0.4},
+              'x':0.4
+          },
           xaxis_title = "Date",
           yaxis_title = f"{self.stationparameterpairs[0]}"
         )

@@ -128,7 +128,7 @@ def regressionModel(regression_model):
         regr = RandomForestRegressor(n_estimators=100)
         return regr
     else:
-        print('Choose either Lasso, Ridge, SVM, Huber, GradientBoost, AdaBoost, or Random Forest')        
+        print('Choose either Lasso, Ridge, Huber, SVM, GradientBoost, AdaBoost, or Random Forest')        
         
         
 class RegressionFun():
@@ -184,8 +184,8 @@ class RegressionFun():
         target_test_pred = regr.predict(features_test)
 
         #Print Root Mean Square Error for training and test sets:
-        RMSE_train = ('RMSE for training set:' + ' ' + str(mean_squared_error(target_train, target_train_pred)))
-        RMSE_test = ('RMSE for test set:' + ' ' + str(mean_squared_error(target_test, target_test_pred)))
+        RMSE_train = ('RMSE for training set:' + ' ' + str(f'{mean_squared_error(target_train, target_train_pred): .5}'))
+        RMSE_test = ('RMSE for test set:' + ' ' + str(f'{mean_squared_error(target_test, target_test_pred): .5}'))
 
         self.RMSE_train = RMSE_train
         self.RMSE_test = RMSE_test
@@ -220,7 +220,48 @@ class RegressionFun():
             mode = 'lines',
             name = 'Model Predictions on Test Data'
         ))
-
+        
+        fig.add_annotation(
+            xref='paper',
+            x=0.3,
+            yref='paper',
+            y=.8,
+            text = RMSE_train,
+            font=dict(
+                family="Courier New, monospace",
+                size=14,
+                color="black"
+                ),
+            align="left",
+            bordercolor="black",
+            borderwidth=2,
+            borderpad=4,
+            bgcolor="white",
+            opacity=0.8
+#             textposition="top right",
+        )
+        
+        fig.add_annotation(
+            xref='paper',
+            x=0.3,
+            yref='paper',
+            y=.7,
+            text = RMSE_test,
+            font=dict(
+                family="Courier New, monospace",
+                size=14,
+                color="black"
+                ),
+            align="left",
+            bordercolor="black",
+            borderwidth=2,
+            borderpad=4,
+            bgcolor="white",
+            opacity=0.8
+               
+#             textposition="top center",
+        )
+        
         fig.update_yaxes(title_text = f"{self.parameters[0]}")
         fig.update_xaxes(title_text = 'Date') 
 

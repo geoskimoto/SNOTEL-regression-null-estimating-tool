@@ -35,16 +35,16 @@ button_style = {'background-color': 'grey' , 'border': 'none', 'color': 'white',
 radio_style = {'color':'black', 'font-weight': 'bold', 'padding': '12px 12px'}
 
 
-ORDCO_stations = pd.read_csv('ORDCO_SNTL_Triplets.csv')
-All_SNOTEL_stations = pd.read_csv('SNTL Triplets.csv')
-# Stations = pd.read_excel('StationTriplets.xlsx')
-station_names = Stations.loc[:,'Extended Name'].tolist()
-triplets = Stations.loc[:, 'Station Triplet'].tolist()
+# ORDCO_stations = pd.read_csv('ORDCO_SNTL_Triplets.csv')
+# All_SNOTEL_stations = pd.read_csv('SNTL Triplets.csv')
+# # Stations = pd.read_excel('StationTriplets.xlsx')
+# station_names = Stations.loc[:,'Extended Name'].tolist()
+# triplets = Stations.loc[:, 'Station Triplet'].tolist()
+#
+# options = []
+# for i in range(len(Stations.index)):
+#   options.append({'label': station_names[i], 'value': triplets[i]})
 
-options = []
-for i in range(len(Stations.index)):
-  options.append({'label': station_names[i], 'value': triplets[i]})
-           
 parameter_options =  [{'label': 'Snow Water Equivalent', 'value': 'WTEQ'},
                       {'label': 'Accumulative Precipitation', 'value': 'PREC'},
                       {'label': 'Precipitation', 'value': 'PRCP'},

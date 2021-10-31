@@ -7,11 +7,11 @@ Original file is located at
     https://colab.research.google.com/drive/1RkOFriqtvYAjKWPb6Lk2YEIIr5b_tdsq
 """
 
-try:
-    import xmltodict
-    # print("module 'xmltodict' is installed")
-except ModuleNotFoundError:
-  get_ipython().system('pip install xmltodict')
+# try:
+#     import xmltodict
+#     # print("module 'xmltodict' is installed")
+# except ModuleNotFoundError:
+#   get_ipython().system('pip install xmltodict')
 
 from sklearn.linear_model import LassoCV, RidgeCV, HuberRegressor, LinearRegression
 from sklearn.ensemble import GradientBoostingRegressor, AdaBoostRegressor, RandomForestRegressor
@@ -21,7 +21,7 @@ from sklearn.metrics import mean_squared_error
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import seaborn as sns
+# import seaborn as sns
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import scipy.stats as stats
@@ -29,7 +29,7 @@ import scipy.stats as stats
 from functools import reduce
 
 import requests
-import xmltodict
+# import xmltodict
 import datetime
 
 # # Web Call to Access and Download Data of a Single Station from AWDB Web Service (SOAP API)

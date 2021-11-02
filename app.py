@@ -38,13 +38,13 @@ radio_style = {'color':'black', 'font-weight': 'bold', 'padding': '12px 12px'}
 # ORDCO_stations = pd.read_csv('ORDCO_SNTL_Triplets.csv')
 # All_SNOTEL_stations = pd.read_csv('SNTL Triplets.csv')
 # # Stations = pd.read_excel('StationTriplets.xlsx')
-# station_names = Stations.loc[:,'Extended Name'].tolist()
-# triplets = Stations.loc[:, 'Station Triplet'].tolist()
-#
+# station_names = stations.loc[:,'Extended Name'].tolist()
+# triplets = stations.loc[:, 'Station Triplet'].tolist()
+
 # options = []
 # for i in range(len(Stations.index)):
 #   options.append({'label': station_names[i], 'value': triplets[i]})
-
+           
 parameter_options =  [{'label': 'Snow Water Equivalent', 'value': 'WTEQ'},
                       {'label': 'Accumulative Precipitation', 'value': 'PREC'},
                       {'label': 'Precipitation', 'value': 'PRCP'},
@@ -174,16 +174,16 @@ controls = dbc.Card(
                         html.H5(['Select date range to train the regression model: '], style=subheading),        
                         dcc.DatePickerSingle(
                             id='startdate_picker',
-                            min_date_allowed=date(1970, 10, 1),
+                            min_date_allowed=date(1950, 10, 1),
                     #         max_date_allowed=date(2017, 9, 19),
                     #         initial_visible_month=date(2017, 8, 5),
-                            date = date(2020,11,1)
+                            date = date(2015,10,1)
                     #         date = '09/01/2021'
                         ),
 
                         dcc.DatePickerSingle(
                             id='enddate_picker',
-                            min_date_allowed=date(1970, 10, 1),
+                            min_date_allowed=date(1950, 10, 1),
                     #         max_date_allowed=date(2017, 9, 19),
                     #         initial_visible_month=date(2017, 8, 5),
                             date = date(2021,2,1) #'09/20/2021',
@@ -194,12 +194,12 @@ controls = dbc.Card(
                         html.H5(['Select Regression Model to be used:']),
                         dcc.Dropdown(id = 'model_selection',
                                     options = model_options,
-                                    value = 'Ridge'
+                                    value = 'SVM'
                         ),    
 
 
                         html.Br(),
-                        html.Div([
+                            html.H5(['First click returns model fit figure(s).  Second click returns training vs. test predictions figure.']),                        html.Div([
                             html.Button(
                                 id='submit-button-training', 
                                 children = 'Train Model',
@@ -251,13 +251,6 @@ controls = dbc.Card(
                                     html.Br(),
                                     html.Li('Use the NRCS IMAP (https://www.nrcs.usda.gov/wps/portal/wcc/home/quicklinks/imap) to find suitable predictor stations based on proximity, elevation, aspect, etc. for the response station of interest.'),
                                     html.Br(),
-                                    html.Li('If you are having issues with figures updating, likely reasons include:'),
-                                    html.Br(),
-                                    '1. Data does not exist for a particular parameter and/or for the date range selected - Use Report Generator to determine the length of record for the interested stations.',
-                                    html.Br(),
-                                    '2. Similar to one, the specific four dates selected above can NOT be null in AWDB. If estimating current data and no end date is available because of ongoing sensor issues, go into DMP and add a temporary value for the end date. Make sure to change this value to an estimated value after estimates have been made using a suitable model.',
-                                    html.Br(),
-                                    html.Br(),
                                     html.Li('When evaluating models, pay attention to the Root Mean Square Error (RMSE) between the training and test data sets.'),
                                     html.Ul([
                                         html.Br(),
@@ -277,67 +270,89 @@ controls = dbc.Card(
 
 
 
-figures = dbc.Card(
-    html.Div([
+# traintest = dbc.Card(
+#     html.Div([
         
-        html.Div([
-            dcc.Graph(id='traintest plot', 
-                      figure={}, 
-                      responsive=True,
-#                       style={'width':12, 'height': 5},
-             ), 
+#         html.Div([
+#             dcc.Graph(id='traintest plot', 
+#                       figure={}, 
+#                       responsive=True,
+# #                       style={'width':12, 'height': 5},
+#              ),
+#         ]),
                     
-            html.Br(),
-        ]),
-        html.Div([
-            dcc.Graph(id='modelfit plot', 
-                      figure={}, 
-                      responsive=True,
-#                       style={'width':12, 'height': 5},
-            ),
-        ]),
-        html.Div([
-            dbc.Row(
-                html.Div(id='pred plots', children=[])              
-        )])
-    ])
-    )
-            
 
+#         html.Div([
+#             dcc.Graph(id='modelfit plot', 
+#                       figure={}, 
+#                       responsive=True,
+# #                       style={'width':12, 'height': 5},
+#             ),
+#         ]),
+#         html.Div([
+#             dbc.Row(
+#                 html.Div(id='pred plots', children=[])              
+#         )])
+#     ])
+#     )
             
-            
+training = dbc.Card(
+    html.Div([
+        html.Div(id='traintest plots', children=[]),
+        ])),          
 
+modelfit = dbc.Card(
+    html.Div([
+        html.Div(id='modelfit_plots', children=[])
+        ])), 
              
 predic = dbc.Card(
     html.Div([
-        dbc.Row(
-            html.Div(id='pred plots', children=[])              
-        )])),
+        html.Div(id='pred plots', children=[])              
+        ])),
                 
                 
 app.layout = dbc.Container([
                         html.Div([
-                            dbc.Row([
+
+                            html.Br(),
+                            html.P([                                   
                                 html.Br(),
-                                html.P([                                   
-                                    html.Br(),
-                                    html.H5('SNOTEL Regression Tool', style = heading),
-                                    html.H4('Estimate missing or bad data using regression', style = subheading)
-                                ], style = {'text-align': "center"}),
+                                html.H5('SNOTEL Regression Tool', style = heading),
+                                html.H4('Estimate missing or bad data using regression', style = subheading)
+                            ], style = {'text-align': "center"}),
                             ]),
                             html.Br(),
                             dbc.Row([
                                     dbc.Col(controls, width=3),
-                                    dbc.Col(figures),
-#                                     dbc.Row(predic)
-#                                     ])
+#                                     dbc.Row(
+                                    dbc.Col(
+                                        [dbc.Row(
+                                            dbc.Col(training)
+                                        ),
+                                         dbc.Row(
+                                            dbc.Col(modelfit)
+                                        ),
+                                        dbc.Row(
+                                            dbc.Col(predic),
+                                        )],
+                                    ),
+#                                     dbc.Col(
+#                                         [dbc.Row(
+#                                             dbc.Col(modelfit)
+#                                         )]
+#                                     )
+
+                                    
+                                    
+                            ])
 
                                         
-                            ]),
+# ]),
 #                             dbc.Row([
 #                                     dbc.Col(predic, style = heading)
 #                             ])
-                        ])
+#                         ])
                                 
             ], fluid=True)
                 
@@ -374,10 +389,16 @@ def populate_dropdowns(chosen_network):
 
 
 
+
+
+
 #----------------------------
 @app.callback(
-    Output('traintest plot','figure'),
-    Output('modelfit plot','figure'),
+    Output('traintest plots', 'children'),
+    Output('modelfit_plots','children'),
+
+#     Output('traintest plot','figure'),
+#     Output('modelfit plot','figure'),
     Input('submit-button-training', component_property='n_clicks'),
     State('response-station','value'),
     State('response-parameter','value'),
@@ -394,7 +415,7 @@ def populate_dropdowns(chosen_network):
     State('model_selection', 'value'),
     State('predict_startdate_picker', 'date'),
     State('predict_enddate_picker', 'date'),
-)#prevent_initial_call=True)
+)
 
 
     
@@ -415,7 +436,8 @@ def train_figures(
     enddate,
     modelselection,
     predict_startdate,
-    predict_enddate):
+    predict_enddate
+):
     
 
 # Filter out Nones in case not all station parameter dropdowns are used
@@ -444,9 +466,76 @@ def train_figures(
 
 
             
-    return model.traintest_fig, model.modelfit_fig #, model_P.predictions_fig
+#     return model.traintest_fig, model.modelfit_fig[0] #, model.modelfit_fig[1] #,model.traintest_fig, model_P.predictions_fig
 
 
+
+    traintest_graph = html.Div(
+        children=[
+            dcc.Graph(
+#                 id={
+#                     'type': 'dynamic-graph',
+#                     'index': n_clicks
+#                 },
+                figure=model.traintest_fig,
+                responsive=True
+            )            
+        ]),
+
+ 
+
+    children = []
+#     if len(model.stations) == 3:
+    children.append(
+        dcc.Graph(
+            figure=model.modelfit_fig,
+            responsive=True,
+            style={'width': '100%', 'height': '100vh'}
+        )
+    )   
+    modelfit_graphs = html.Div(children)
+
+#     else:
+#         for i in range(len(model.modelfit_fig)):
+#                 children.append(
+#                     dcc.Graph(
+#         #                 id={
+#         #                     'type': 'dynamic-graph',
+#         #                     'index': n_clicks
+#         #                 },
+
+#                         figure=model.modelfit_fig[i],
+#                         responsive=True
+#                     )
+#                 )
+
+
+#         modelfit_graphs = html.Div(children),
+
+    #     modelfit_graph = html.Div(
+    #             children=[
+    #             dcc.Graph(
+    # #                 id={
+    # #                     'type': 'dynamic-graph',
+    # #                     'index': n_clicks
+    # #                 },
+    #                 figure=model.modelfit_fig,
+    #                 responsive=True
+    #             )            
+    #         ])
+
+    return traintest_graph, modelfit_graphs
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 #----------------For predictions - Re-fit model to entire training/test set of data 
 
@@ -547,4 +636,3 @@ def train_figures(
 
 if __name__ == '__main__':
               app.run_server()
-

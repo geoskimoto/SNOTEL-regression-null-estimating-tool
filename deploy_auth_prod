@@ -1,0 +1,12 @@
+#!/bin/bash
+
+export USE_AUTH=YASS
+source .venv/bin/activate
+
+gunicorn -w 1 \
+      -k gevent \
+      --timeout 120 \
+      -b 0.0.0.0:8089 \
+      --limit-request-line 0 \
+      --limit-request-field_size 0 \
+      "app:server"

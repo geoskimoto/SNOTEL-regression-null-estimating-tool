@@ -2,7 +2,7 @@
 """
 Created on Wed Nov  3 13:25:35 2021
 
-@author: Beau.Uriona
+@author: Beau.Uriona and Nick Steele
 """
 
 import sqlite3

@@ -3,5 +3,3 @@
 
 Connected to the USDA Air - Water Database (AWDB) web service, so estimates can be done with real-time data.
 
-![app](/snotel-reg-tool-app.jpg)
-

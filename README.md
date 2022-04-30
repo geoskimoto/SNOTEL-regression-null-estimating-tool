@@ -1,5 +1,2 @@
 # SNOTEL Regression Tool
 ## Estimate missing or bad data at non-reporting Snow Pack Telemetry (SNOTEL) stations using regression.
-
-Connected to the USDA Air - Water Database (AWDB) web service, so estimates can be done with real-time data.
-
